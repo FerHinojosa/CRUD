@@ -44,7 +44,7 @@ public class DBConnection {
     private void init() {
         try {
             Class.forName("org.sqlite.JDBC");
-            dbconnection = DriverManager.getConnection("jdbc:sqlite:PersonService.db");
+            dbconnection = DriverManager.getConnection("jdbc:sqlite:CarService.db");
         } catch(Exception e) { e.printStackTrace(); }
     }
 
