@@ -13,6 +13,8 @@ import com.progra.crud.model.DBManager;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.sql.SQLException;
+
 /**
  * Implements main classes.
  *
@@ -21,9 +23,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         SpringApplication.run(Main.class, args);
         DBManager dbManager = new DBManager();
-        dbManager.add("Hola","Test");
+
+        dbManager.add("Ford","Explorer",1998,100);
     }
 }

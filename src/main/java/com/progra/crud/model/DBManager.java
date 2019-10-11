@@ -11,6 +11,8 @@ package com.progra.crud.model;
 
 import com.progra.crud.db.QueryManager;
 
+import java.sql.SQLException;
+
 /**
  * Implements DB Manager.
  *
@@ -21,17 +23,10 @@ public class DBManager {
     private QueryManager queryManager;
     public DBManager(){
         queryManager = new QueryManager();
+        queryManager.createTable();
     }
 
-    /**
-     * Implements Add classes.
-     *
-     * @param checksum Unique value.
-     * @param path Location the file.
-     * @return true if save in the FileStorage table.
-     */
-    public boolean add (String checksum, String path) {
-        boolean result = queryManager.insert(checksum,path);
-        return result;
+    public void add (String make,String model,int yearModel,int speed) throws SQLException {
+        queryManager.insert(make,model,yearModel,speed);
     }
 }

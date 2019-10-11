@@ -12,19 +12,31 @@ public class QueryManager {
         connection = DBConnection.getInstance().getConnection();
     }
 
-    public boolean insert (String checksum, String path) throws SQLException {
-        statement = connection.createStatement();
-        statement.execute("create table if not exists(check varchar(20), path varchar(20)");
-        String sql = "INSERT INTO FileStorage (checksum,path)" + "VALUES (?,?)";
-        boolean query = false;
-        try (PreparedStatement state = connection.prepareStatement(sql)) {
-            state.setString(1,checksum);
-            state.setString(2,path);
-            query = state.execute();
+    public void createTable (){
+        String createSql = "CREATE TABLE IF NOT EXISTS CarStorage " +
+                "(ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                " make varchar(50)," +
+                " model varchar(50)," +
+                " year integer, " +
+                " speed integer)";
+        try {
+            statement = connection.createStatement();
+            statement.executeUpdate(createSql);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return query;
+    }
+    public void insert (String make,String model,int yearModel,int speed) {
+        String sql = "INSERT INTO CarStorage (make,model,year,speed)" + "VALUES (?,?,?,?)";
+        try (PreparedStatement state = connection.prepareStatement(sql)) {
+            state.setString(1,make);
+            state.setString(2,model);
+            state.setInt(3,yearModel);
+            state.setInt(4,speed);
+            state.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     /*public void create() {
         try {
