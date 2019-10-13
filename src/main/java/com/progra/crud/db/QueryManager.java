@@ -1,9 +1,10 @@
 package com.progra.crud.db;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import com.progra.crud.model.Car;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class QueryManager {
     private Connection connection;
@@ -26,7 +27,8 @@ public class QueryManager {
             e.printStackTrace();
         }
     }
-    public void insert (String make,String model,int yearModel,int speed) {
+    public boolean insert (String make,String model,int yearModel,int speed) {
+        boolean registrar = false;
         String sql = "INSERT INTO CarStorage (make,model,year,speed)" + "VALUES (?,?,?,?)";
         try (PreparedStatement state = connection.prepareStatement(sql)) {
             state.setString(1,make);
@@ -34,22 +36,66 @@ public class QueryManager {
             state.setInt(3,yearModel);
             state.setInt(4,speed);
             state.executeUpdate();
+            registrar = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return registrar;
+    }
+    public boolean delete (int id){
+        boolean registrar = false;
+        String sql = "DELETE FROM CarStorage WHERE ID = ?";
+        try (PreparedStatement state = connection.prepareStatement(sql)) {
+            state.setInt(1,id);
+            state.executeUpdate();
+            registrar = true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return registrar;
+    }
+    public void select (int id){
+        String sql = "SELECT * FROM CarStorage WHERE ID = ?";
+        try (PreparedStatement state = connection.prepareStatement(sql)) {
+            state.setInt(1,id);
+            ResultSet resultSet = state.executeQuery();
+            while (resultSet.next()) {
+                System.out.println(resultSet.getInt("id") +  "\t" +
+                        resultSet.getString("make") + "\t" +
+                        resultSet.getString("model") + "\t" +
+                        resultSet.getInt("year") + "\t" +
+                        resultSet.getInt("speed"));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    /*public void create() {
-        try {
-            statement = connection.createStatement();
-            String sql = "CREATE TABLE COMPANY " +
-                    "(ID INT PRIMARY KEY     NOT NULL," +
-                    " NAME           TEXT    NOT NULL, " +
-                    " AGE            INT     NOT NULL, " +
-                    " ADDRESS        CHAR(50), " +
-                    " SALARY         REAL)";
-            statement.execute(sql);
-        } catch (Exception e) {
-            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+    public void selecAll(){
+        String sql = "SELECT * FROM CarStorage";
+        try (PreparedStatement state = connection.prepareStatement(sql);
+             ResultSet resultSet = state.executeQuery();) {
+            while (resultSet.next()) {
+                System.out.println(resultSet.getInt("id") +  "\t" +
+                        resultSet.getString("make") + "\t" +
+                        resultSet.getString("model") + "\t" +
+                        resultSet.getInt("year") + "\t" +
+                        resultSet.getInt("speed"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    }*/
+    }
+    public void update (int id,String make,String model,int yearModel,int speed) {
+        String sql = "UPDATE CarStorage SET make = ?, model = ?, year = ?, speed = ? WHERE id = ?;";
+        try (PreparedStatement state = connection.prepareStatement(sql)) {
+            state.setString(1,make);
+            state.setString(2,model);
+            state.setInt(3,yearModel);
+            state.setInt(4,speed);
+            state.setInt(5,id);
+            state.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

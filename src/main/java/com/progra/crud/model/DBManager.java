@@ -12,6 +12,8 @@ package com.progra.crud.model;
 import com.progra.crud.db.QueryManager;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Implements DB Manager.
@@ -26,7 +28,21 @@ public class DBManager {
         queryManager.createTable();
     }
 
-    public void add (String make,String model,int yearModel,int speed) throws SQLException {
-        queryManager.insert(make,model,yearModel,speed);
+    public boolean add (String make,String model,int yearModel,int speed) throws SQLException {
+        boolean registrar = queryManager.insert(make,model,yearModel,speed);
+        return registrar;
+    }
+    public boolean remove (int id) throws SQLException {
+        boolean registrar = queryManager.delete(id);
+        return registrar;
+    }
+    public void selectAll () throws SQLException {
+        queryManager.selecAll();
+    }
+    public void select (int id) throws SQLException {
+        queryManager.select(id);
+    }
+    public void update (int ID,String make,String model,int yearModel,int speed) throws SQLException {
+        queryManager.update(ID,make,model,yearModel,speed);
     }
 }
