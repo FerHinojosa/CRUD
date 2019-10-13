@@ -25,16 +25,14 @@ import java.sql.SQLException;
 public class Main {
     public static void main(String[] args) throws SQLException {
         SpringApplication.run(Main.class, args);
-        DBManager dbManager = new DBManager();
+        /*DBManager dbManager = new DBManager();
 
-        dbManager.add("Ford","Explorer",1998,100);
-        dbManager.add("Ford","Expedition",2000,150);
-        dbManager.add("Mazda","2",2019,180);
+
         dbManager.remove(1);
         boolean remove = dbManager.remove(4);
         System.out.println(remove);
         dbManager.selectAll();
         System.out.println("//////////");
-        dbManager.update(2,"Audi","Explorer",1998,100);
+        dbManager.update(2,"Audi","Explorer",1998,100);*/
     }
 }

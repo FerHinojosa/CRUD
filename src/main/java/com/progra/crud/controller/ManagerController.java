@@ -9,9 +9,10 @@
  */
 package com.progra.crud.controller;
 
-import com.progra.crud.model.Car;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import com.progra.crud.model.DBManager;
 import org.springframework.web.bind.annotation.*;
+import java.sql.SQLException;
 
 /**
  * Implements main classes.
@@ -23,30 +24,38 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1.0/")
 public class ManagerController {
 
-    /*@Autowired
-    private Car car;
-    WebsiteService service;
-    @GetMapping("/car/{id}")
-    public ResponseEntity<WebsiteVo> getWebsite(@PathVariable Integer id) {
-        return new ResponseEntity<WebsiteVo>(service.getWebsiteById(id), HttpStatus.OK);
-    }
-    @GetMapping("/car")
-    public ResponseEntity<List<WebsiteVo>> getWebsiteList() {
-        return new ResponseEntity<List<WebsiteVo>>(service.getWebsiteList(), HttpStatus.OK);
-    }
     @PostMapping("/car")
-    public ResponseEntity<String> saveWebsite(@RequestBody WebsiteVo websiteVo) {
-        service.saveWebsite(websiteVo);
-        return new ResponseEntity<String>("New website successfully saved", HttpStatus.OK);
-    }
-    @PutMapping("/car")
-    public ResponseEntity<String> updateWebsite(@RequestBody WebsiteVo websiteVo) {
-        service.updateWebsite(websiteVo);
-        return new ResponseEntity<String>("New website successfully updated", HttpStatus.OK);
+    public void insert(@RequestParam(value = "make", defaultValue = "") String make,
+                       @RequestParam(value = "model", defaultValue = "") String model,
+                       @RequestParam(value = "year", defaultValue = "") int year,
+                       @RequestParam(value = "speed", defaultValue = "") int speed) throws SQLException {
+        DBManager dbManager = new DBManager();
+        boolean test = dbManager.add(make,model,year,speed);
+        System.out.println(test);
     }
     @DeleteMapping("/car")
-    public ResponseEntity<String> deleteWebsite(@RequestBody WebsiteVo websiteVo) {
-        service.deleteWebsite(websiteVo);
-        return new ResponseEntity<String>("New website successfully deleted", HttpStatus.OK);
-    }*/
+    public void delete(@RequestParam(value = "id", defaultValue = "") int id) throws SQLException{
+        DBManager dbManager = new DBManager();
+        boolean test = dbManager.remove(id);
+        System.out.println(test);
+    }
+    @GetMapping("/car/{id}")
+    public void select(@PathVariable Integer id) throws SQLException{
+        DBManager dbManager = new DBManager();
+        dbManager.select(id);
+    }
+    @GetMapping("/car")
+    public void selectAll() throws SQLException{
+        DBManager dbManager = new DBManager();
+        dbManager.selectAll();
+    }
+    @PutMapping("/car")
+    public void update(@RequestParam(value = "id", defaultValue = "") int id,
+                       @RequestParam(value = "make", defaultValue = "") String make,
+                       @RequestParam(value = "model", defaultValue = "") String model,
+                       @RequestParam(value = "year", defaultValue = "") int year,
+                       @RequestParam(value = "speed", defaultValue = "") int speed) throws SQLException {
+        DBManager dbManager = new DBManager();
+        dbManager.update(id,make, model, year, speed);
+    }
 }
