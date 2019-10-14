@@ -27,8 +27,8 @@ public class QueryManager {
             e.printStackTrace();
         }
     }
-    public boolean insert (String make,String model,int yearModel,int speed) {
-        boolean registrar = false;
+    public String insert (String make,String model,int yearModel,int speed) {
+        String registrar = "Registry incomplete, please try again";
         String sql = "INSERT INTO CarStorage (make,model,year,speed)" + "VALUES (?,?,?,?)";
         try (PreparedStatement state = connection.prepareStatement(sql)) {
             state.setString(1,make);
@@ -36,57 +36,64 @@ public class QueryManager {
             state.setInt(3,yearModel);
             state.setInt(4,speed);
             state.executeUpdate();
-            registrar = true;
+            registrar = "Succesfull registry!";
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return registrar;
     }
-    public boolean delete (int id){
-        boolean registrar = false;
+    public int delete (int id){
+        int deletedRow = 0;
         String sql = "DELETE FROM CarStorage WHERE ID = ?";
         try (PreparedStatement state = connection.prepareStatement(sql)) {
             state.setInt(1,id);
-            state.executeUpdate();
-            registrar = true;
+            deletedRow = state.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return registrar;
+        return deletedRow;
     }
-    public void select (int id){
+    public Car select (int id){
         String sql = "SELECT * FROM CarStorage WHERE ID = ?";
+        Car carResult = null;
         try (PreparedStatement state = connection.prepareStatement(sql)) {
-            state.setInt(1,id);
+            //state.setInt(1,id);
             ResultSet resultSet = state.executeQuery();
             while (resultSet.next()) {
-                System.out.println(resultSet.getInt("id") +  "\t" +
-                        resultSet.getString("make") + "\t" +
-                        resultSet.getString("model") + "\t" +
-                        resultSet.getInt("year") + "\t" +
-                        resultSet.getInt("speed"));
+                   resultSet.getInt("id");
+                   String make = resultSet.getString("make");
+                   String model = resultSet.getString("model");
+                   int year = resultSet.getInt("year");
+                   int speed = resultSet.getInt("speed");
+                   carResult = new Car(make,model,year,speed);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return carResult;
     }
-    public void selecAll(){
+    public List<Car> selecAll(){
         String sql = "SELECT * FROM CarStorage";
+        List<Car> carList = new ArrayList<Car>();
         try (PreparedStatement state = connection.prepareStatement(sql);
              ResultSet resultSet = state.executeQuery();) {
             while (resultSet.next()) {
-                System.out.println(resultSet.getInt("id") +  "\t" +
-                        resultSet.getString("make") + "\t" +
-                        resultSet.getString("model") + "\t" +
-                        resultSet.getInt("year") + "\t" +
-                        resultSet.getInt("speed"));
+                //resultSet.getInt("id");
+                String make = resultSet.getString("make");
+                String model = resultSet.getString("model");
+                int year = resultSet.getInt("year");
+                int speed = resultSet.getInt("speed");
+                Car carResult = new Car(make,model,year,speed);
+                carList.add(carResult);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return carList;
     }
-    public void update (int id,String make,String model,int yearModel,int speed) {
+    /*public Car update (int id,String make,String model,int yearModel,int speed) {
         String sql = "UPDATE CarStorage SET make = ?, model = ?, year = ?, speed = ? WHERE id = ?;";
+        Car carResult = null;
         try (PreparedStatement state = connection.prepareStatement(sql)) {
             state.setString(1,make);
             state.setString(2,model);
@@ -97,5 +104,5 @@ public class QueryManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }

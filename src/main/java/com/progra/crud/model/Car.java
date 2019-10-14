@@ -6,6 +6,13 @@ public class Car {
     private String model;
     private int speed;
 
+    public Car(String make, String model,int yearModel, int speed) {
+        this.yearModel = yearModel;
+        this.make = make;
+        this.model = model;
+        this.speed = speed;
+    }
+
     public int getYearModel() {
         return yearModel;
     }

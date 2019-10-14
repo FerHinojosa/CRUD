@@ -28,21 +28,21 @@ public class DBManager {
         queryManager.createTable();
     }
 
-    public boolean add (String make,String model,int yearModel,int speed) throws SQLException {
-        boolean registrar = queryManager.insert(make,model,yearModel,speed);
+    public String add (String make,String model,int yearModel,int speed){
+        String registrar = queryManager.insert(make,model,yearModel,speed);
         return registrar;
     }
-    public boolean remove (int id) throws SQLException {
-        boolean registrar = queryManager.delete(id);
+    public int remove (int id) throws SQLException {
+        int registrar = queryManager.delete(id);
         return registrar;
     }
-    public void selectAll () throws SQLException {
-        queryManager.selecAll();
+    public List<Car> selectAll () throws SQLException {
+        return queryManager.selecAll();
     }
-    public void select (int id) throws SQLException {
-        queryManager.select(id);
+    public Car select (int id) throws SQLException {
+        return queryManager.select(id);
     }
-    public void update (int ID,String make,String model,int yearModel,int speed) throws SQLException {
+    /*public void update (int ID,String make,String model,int yearModel,int speed) throws SQLException {
         queryManager.update(ID,make,model,yearModel,speed);
-    }
+    }*/
 }
