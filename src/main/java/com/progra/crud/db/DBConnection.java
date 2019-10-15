@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2019 Jalasoft.
- *
+ * <p>
  * This software is the confidential and proprietary information of Jalasoft.
  * ("Confidential Information"). You shall not
  * disclose such Confidential Information and shall use it only in
@@ -11,7 +11,6 @@ package com.progra.crud.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.Statement;
 
 /**
  * Implements DB connection.
@@ -32,9 +31,10 @@ public class DBConnection {
 
     /**
      * This classes return the DBconnection.
+     *
      * @return the dbconnection.
      */
-    public Connection getConnection(){
+    public Connection getConnection() {
         return dbconnection;
     }
 
@@ -45,12 +45,15 @@ public class DBConnection {
         try {
             Class.forName("org.sqlite.JDBC");
             dbconnection = DriverManager.getConnection("jdbc:sqlite:CarService.db");
-        } catch(Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * This classes verify if the DBConnection exits.
-     * @return
+     *
+     * @return the connection.
      */
     public static DBConnection getInstance() {
         try {
@@ -59,7 +62,9 @@ public class DBConnection {
             } else if (connection.getConnection().isClosed()) {
                 connection = new DBConnection();
             }
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return connection;
     }
 }
